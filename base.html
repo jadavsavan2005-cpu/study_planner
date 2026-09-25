@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Study Planner{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'studyplanner/style.css' %}">
+</head>
+<body>
+
+    <h1>📚 Study Planner</h1>
+    <nav>
+        <a href="{% url 'task_list' %}">Tasks</a>
+        <a href="{% url 'subject_list' %}">Subjects</a>
+    </nav>
+    <hr>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
