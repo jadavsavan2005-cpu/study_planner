@@ -1,0 +1,42 @@
+{% extends "studyplanner/base.html" %}
+
+{% block title %}Tasks - Study Planner{% endblock %}
+
+{% block content %}
+    <a class="btn" href="{% url 'add_task' %}">+ Add Task</a>
+
+    {% if tasks %}
+        <table>
+            <tr>
+                <th>Done</th>
+                <th>Task</th>
+                <th>Subject</th>
+                <th>Due date</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks %}
+                <tr>
+                    <td>
+                        <form method="post" action="{% url 'toggle_task' task.id %}">
+                            {% csrf_token %}
+                            <input type="checkbox" onChange="this.form.submit()" {% if task.is_done %}checked{% endif %}>
+                        </form>
+                    </td>
+                    <td class="{% if task.is_done %}done{% endif %}">
+                        {{ task.title }}
+                    </td>
+                    <td>{{ task.subject.name }}</td>
+                    <td class="{% if task.due_date < today and not task.is_done %}overdue{% endif %}">
+                        {{ task.due_date }}
+                    </td>
+                    <td class="actions">
+                        <a href="{% url 'edit_task' task.id %}">Edit</a>
+                        <a href="{% url 'delete_task' task.id %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No tasks yet. Click "Add Task" to create your first one.</p>
+    {% endif %}
+{% endblock %}

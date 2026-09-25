@@ -1,0 +1,28 @@
+{% extends "studyplanner/base.html" %}
+
+{% block title %}Subjects - Study Planner{% endblock %}
+
+{% block content %}
+    <a class="btn" href="{% url 'add_subject' %}">+ Add Subject</a>
+
+    {% if subjects %}
+        <table>
+            <tr>
+                <th>Subject</th>
+                <th>Tasks</th>
+                <th>Actions</th>
+            </tr>
+            {% for subject in subjects %}
+                <tr>
+                    <td>{{ subject.name }}</td>
+                    <td>{{ subject.tasks.count }}</td>
+                    <td class="actions">
+                        <a href="{% url 'delete_subject' subject.id %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No subjects yet. Add one so you can attach tasks to it.</p>
+    {% endif %}
+{% endblock %}
